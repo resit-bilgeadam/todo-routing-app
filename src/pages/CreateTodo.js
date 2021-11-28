@@ -1,12 +1,22 @@
+import {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 
-function CreateTodo() {
+function CreateTodo({onCreate}) {
     const navigate = useNavigate();
+    const [title, setTitle] = useState('');
+    const [text, setText] = useState('');
 
     const addTodo = (e) => {
         e.preventDefault();
         
-        // TODO: Yeni todo objesi eklemek için gereken işlemler...
+        const newTodo = {
+            id: Math.random(),
+            title,
+            text,
+            completed: false
+        }
+
+        onCreate(newTodo);
 
         navigate('/todos');
     }
@@ -22,11 +32,31 @@ function CreateTodo() {
                     <div className='card shadow'>
                         <div className='card-body'>
                             <form onSubmit={addTodo}>
-                                <div class="form-group">
-                                    <label for="todo-input">Todo Title</label>
-                                    <input type="text" class="form-control" id="todo-input" placeholder='Enter your todo...' />
+                                <div className="form-group">
+                                    <label htmlFor="todo-input">Todo Title</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        id="todo-input" 
+                                        name='todo-input'
+                                        placeholder='Enter your todo...'
+                                        value={title}
+                                        onChange={e => setTitle(e.target.value)} />
                                 </div>
-                                <button type="submit" class="btn btn-primary">Add Todo</button>
+
+                                <div className="form-group">
+                                    <label htmlFor="todo-text-input">Todo Description</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        id="todo-text-input" 
+                                        name='todo-text-input'
+                                        placeholder='Enter your todo description...'
+                                        value={text}
+                                        onChange={e => setText(e.target.value)} />
+                                </div>
+
+                                <button type="submit" className="btn btn-primary">Add Todo</button>
                             </form>
                         </div>
                     </div>
